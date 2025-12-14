@@ -1,0 +1,47 @@
+﻿@model Tp_TODO.ViewModels.TodoVm
+
+@{
+    ViewData["Title"] = "Edit TODO";
+}
+
+<h2>Edit TODO</h2>
+
+<form asp-action="Edit" asp-route-id="@ViewBag.Index" method="post">
+    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+    <div class="form-group">
+        <label asp-for="Libelle" class="control-label"></label>
+        <input asp-for="Libelle" class="form-control" />
+        <span asp-validation-for="Libelle" class="text-danger"></span>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="Description" class="control-label"></label>
+        <textarea asp-for="Description" class="form-control"></textarea>
+        <span asp-validation-for="Description" class="text-danger"></span>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="State" class="control-label"></label>
+        <select asp-for="State" class="form-control">
+            <option value="ToDo">ToDo</option>
+            <option value="Doing">Doing</option>
+            <option value="Done">Done</option>
+        </select>
+        <span asp-validation-for="State" class="text-danger"></span>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="DateLimite" class="control-label"></label>
+        <input asp-for="DateLimite" class="form-control" type="date" />
+        <span asp-validation-for="DateLimite" class="text-danger"></span>
+    </div>
+
+    <br />
+    <button type="submit" class="btn btn-primary">Save</button>
+    <a asp-action="Index" class="btn btn-secondary">Cancel</a>
+</form>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

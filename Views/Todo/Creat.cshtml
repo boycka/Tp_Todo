@@ -1,0 +1,75 @@
+﻿@model Tp_TODO.ViewModels.TodoVm
+@using Tp_TODO.Enums
+
+@{
+    ViewData["Title"] = "Create TODO";
+}
+
+<div class="container mt-4">
+    <div class="row justify-content-center">
+        <div class="col-lg-6 col-md-8">
+            <div class="card shadow-sm border-0">
+                <div class="card-header bg-primary text-white">
+                    <h5 class="mb-0">Créer une nouvelle tâche</h5>
+                </div>
+
+                <div class="card-body">
+                    <form asp-action="Creat">
+                        <div asp-validation-summary="ModelOnly" class="alert alert-danger" role="alert"></div>
+
+                        <!-- Libelle -->
+                        <div class="mb-3">
+                            <label asp-for="Libelle" class="form-label"></label>
+                            <input asp-for="Libelle" class="form-control" />
+                            <span asp-validation-for="Libelle" class="text-danger"></span>
+                        </div>
+
+                        <!-- Description -->
+                        <div class="mb-3">
+                            <label asp-for="Description" class="form-label"></label>
+                            <textarea asp-for="Description" class="form-control" rows="3"></textarea>
+                            <span asp-validation-for="Description" class="text-danger"></span>
+                        </div>
+
+                        <!-- State -->
+                        <div class="mb-3">
+                            <label class="form-label">@Html.DisplayNameFor(m => m.State)</label>
+                            <div>
+                                <div class="form-check form-check-inline">
+                                    <input asp-for="State" class="form-check-input" type="radio" value="ToDo" id="stateTodo" />
+                                    <label class="form-check-label" for="stateTodo">ToDo</label>
+                                </div>
+                                <div class="form-check form-check-inline">
+                                    <input asp-for="State" class="form-check-input" type="radio" value="Doing" id="stateDoing" />
+                                    <label class="form-check-label" for="stateDoing">Doing</label>
+                                </div>
+                                <div class="form-check form-check-inline">
+                                    <input asp-for="State" class="form-check-input" type="radio" value="Done" id="stateDone" />
+                                    <label class="form-check-label" for="stateDone">Done</label>
+                                </div>
+                            </div>
+                            <span asp-validation-for="State" class="text-danger"></span>
+                        </div>
+
+                        <!-- DateLimite -->
+                        <div class="mb-3">
+                            <label asp-for="DateLimite" class="form-label"></label>
+                            <input asp-for="DateLimite" type="date" class="form-control" />
+                            <span asp-validation-for="DateLimite" class="text-danger"></span>
+                        </div>
+
+                        <!-- Buttons -->
+                        <div class="d-flex justify-content-between align-items-center mt-4">
+                            <a asp-action="Index" class="btn btn-outline-secondary">
+                                <i class="bi bi-arrow-left"></i> Back to List
+                            </a>
+                            <button type="submit" class="btn btn-primary">
+                                <i class="bi bi-check-circle"></i> Create
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
