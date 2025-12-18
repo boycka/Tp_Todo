@@ -1,5 +1,7 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Data.SqlClient;
+using System.Data;
 using System.Text.Json;
 using Tp_TODO.Filters;
 using Tp_TODO.ViewModels;
@@ -37,8 +39,36 @@ namespace Tp_TODO.Controllers
             if (!IsAuthenticated())
                 return RedirectToAction("Login", "User");
 
-            var todos = GetTodos();
-            return View(todos); 
+            using (SqlConnection conn = new SqlConnection(
+    "Data Source=.\\SQLEXPRESS;Initial Catalog=TodoDB;Integrated Security=True;Encrypt=false"))
+            {
+                List<TodoVm> todo = new List<TodoVm>();
+
+                conn.Open();
+
+                SqlCommand cmd = new SqlCommand(
+                    "SELECT libelle, description, state, datelimit FROM dbo.Todo_Table",
+                    conn
+                );
+
+                using (SqlDataReader reader = cmd.ExecuteReader())
+                {
+                    while (reader.Read())
+                    {
+                        TodoVm vm = new TodoVm
+                        {
+                            Libelle = reader["libelle"].ToString(),
+                            Description = reader["description"].ToString(),
+                            State = Enum.Parse<Tp_TODO.Enums.State>(reader["state"].ToString()),
+                            DateLimite = DateOnly.FromDateTime(reader.GetDateTime(3))
+                        };
+
+                        todo.Add(vm);
+                    }
+                }
+
+                return View(todo);
+            }
         }
 
         public IActionResult Creat()   
@@ -60,9 +90,24 @@ namespace Tp_TODO.Controllers
                 return View(vm);
             }
 
-            var todos = GetTodos();
-            todos.Add(vm);
-            SaveTodos(todos);
+            using (SqlConnection conn = new SqlConnection(
+    "Data Source=.\\SQLEXPRESS;Initial Catalog=TodoDb;Integrated Security=True;Encrypt=false"))
+            {
+                conn.Open();
+
+                SqlCommand cmd = new SqlCommand(
+                    "INSERT INTO Todo_Table (libelle, description, state, datelimit) " +
+                    "VALUES (@Libelle, @Description, @State, @DateLimite)", conn);
+
+                cmd.Parameters.Add("@Libelle", SqlDbType.NVarChar).Value = vm.Libelle;
+                cmd.Parameters.Add("@Description", SqlDbType.NVarChar).Value = vm.Description;
+                cmd.Parameters.Add("@State", SqlDbType.NVarChar).Value = vm.State.ToString();
+                cmd.Parameters.Add("@DateLimite", SqlDbType.Date)
+                    .Value = vm.DateLimite.ToDateTime(TimeOnly.MinValue);
+
+                cmd.ExecuteNonQuery();
+            }
+
 
             return RedirectToAction(nameof(Index));
         }
