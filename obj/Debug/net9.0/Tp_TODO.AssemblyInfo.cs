@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("Tp_TODO")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+9e7ff7584f1c30ff08635920896e13123d679e4a")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+118aa9a379b5d02f59554d5683250983d6b78c3a")]
 [assembly: System.Reflection.AssemblyProductAttribute("Tp_TODO")]
 [assembly: System.Reflection.AssemblyTitleAttribute("Tp_TODO")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

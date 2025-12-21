@@ -13,3 +13,10 @@ obj/
 
 ## Others
 *.log
+
+
+
+
+
+*.vs/
+appsettings.Development.json
